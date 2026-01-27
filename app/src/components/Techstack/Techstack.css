@@ -1,0 +1,22 @@
+.tech-parent{
+    margin-top: 3rem;
+}
+.logo_images {
+    width: 55%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.logo_images .image {
+    width: 56px;
+}
+
+.logo_images .image img {
+    width: 100%;
+}
+
+.tech-parent {
+    width: 100%;
+}

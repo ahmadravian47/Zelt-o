@@ -1,0 +1,119 @@
+:root {
+    --brand-orange: #f25534;
+    --bg-soft: #F8F5F0;
+    --text-main: #1a1a1a;
+    --text-muted: #282828;
+}
+
+.section-container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 5rem;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* Header Block Styles */
+.header-block {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.header-block h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+.header-block p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.cta-link {
+    color: var(--brand-orange);
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    transition: gap 0.2s;
+}
+
+.cta-link:hover {
+    gap: 12px;
+}
+
+/* Card Styles */
+.feature-card {
+    background-color: var(--bg-soft);
+    padding: 40px 32px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.icon-container {
+    width: 48px;
+    height: 48px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-orange);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-content h3 {
+    font-size: 1.25rem;
+    margin: 0 0 12px 0;
+    color: var(--text-muted);
+}
+
+.card-content p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Highlighted (AI) Card Styles */
+.feature-card.highlighted {
+    background-color: var(--brand-orange);
+    color: white;
+}
+
+.feature-card.highlighted .icon-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.feature-card.highlighted h3,
+.feature-card.highlighted p {
+    color: white;
+}
+
+/* Responsive Grid */
+@media (max-width: 1024px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
