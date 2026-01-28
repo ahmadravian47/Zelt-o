@@ -113,7 +113,7 @@ const sendAuthCookies = (res, accessToken, refreshToken) => {
 
 function generateEmbedCode(botId) {
   return `<script 
-    src="https://yourbot.com/chat.js" 
+    src="${process.env.CLIENT_URL}/chat.js" 
     data-bot-id="${botId}">
   </script>`;
 }
