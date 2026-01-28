@@ -9,7 +9,17 @@ const GuestRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get(`${REACT_APP_SERVER_URL}/userprofile`, { withCredentials: true });
+        const csrfRes = await fetch(`${import.meta.env.VITE_SERVER_URL}/csrf-token`, {
+          credentials: "include"
+        });
+        const { csrfToken } = await csrfRes.json();
+
+        await axios.get(`${import.meta.env.VITE_SERVER_URL}/userprofile`, {
+          withCredentials: true, // include cookies
+          headers: {
+            "X-CSRF-Token": csrfToken, // CSRF token header
+          },
+        });
         setIsAuthenticated(true);
       } catch {
         setIsAuthenticated(false);

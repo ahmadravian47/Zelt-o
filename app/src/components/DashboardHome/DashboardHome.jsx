@@ -9,7 +9,6 @@ export default function DashboardHome({ data }) {
     if (!data) return <div>Loading...</div>;
 
     const { user, organization, faqCount, recentChats, stats } = data;
-    console.log(data);
 
     return (
         <div style={{ flex: 1 }}>

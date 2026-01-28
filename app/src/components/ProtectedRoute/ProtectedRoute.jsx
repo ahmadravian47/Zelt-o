@@ -11,7 +11,17 @@ const ProtectedRoute = ({ children }) => {
     // Use useEffect with async function inside (not directly)
     const checkAuth = async () => {
       try {
-        await axios.get(`${REACT_APP_SERVER_URL}/userprofile`, { withCredentials: true });
+        const csrfRes = await fetch(`${import.meta.env.VITE_SERVER_URL}/csrf-token`, {
+          credentials: "include"
+        });
+        const { csrfToken } = await csrfRes.json();
+
+        await axios.get(`${import.meta.env.VITE_SERVER_URL}/userprofile`, {
+          withCredentials: true, // include cookies
+          headers: {
+            "X-CSRF-Token": csrfToken, // CSRF token header
+          },
+        });
         setIsAuthenticated(true);
       } catch {
         setIsAuthenticated(false);
@@ -22,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
- if (!authChecked) {
+  if (!authChecked) {
     return (
       <div className="loader-container">
         <div className="spinner"></div>

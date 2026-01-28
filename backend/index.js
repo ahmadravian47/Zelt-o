@@ -18,6 +18,8 @@ const Message = require("./models/Message");
 const Organization = require("./models/Organization");
 const User = require("./models/User");
 const Pending = require("./models/Pending");
+const cors = require("cors");
+
 
 const app = express();
 app.set("trust proxy", 1);
@@ -37,32 +39,39 @@ const oauthLimiter = rateLimit({
   message: "Too many OAuth requests. Try again later."
 });
 
-app.use("/auth/google/callback", oauthLimiter);
-app.use("/auth", authRoutes);
-
 /* -------------------- GLOBAL MIDDLEWARE -------------------- */
 
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
+
+
+
+
+
 // -------------------- CORS --------------------
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", CLIENT_URL);
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-Token"
-  );
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
-
-  if (req.method === "OPTIONS") return res.sendStatus(200);
-
-  next();
+// 🔐 Private APIs (dashboard, auth)
+const privateCors = cors({
+  origin: CLIENT_URL,
+  credentials: true,
+  allowedHeaders: ["Content-Type", "X-CSRF-Token"], 
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] 
 });
+
+// 🌍 Public Chatbot Embed API
+const publicCors = cors({
+  origin: "*",
+  methods: ["POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+});
+
+app.use("/auth/google/callback", privateCors, oauthLimiter);
+app.use("/auth", privateCors, authRoutes);
+
+// Handle preflight OPTIONS requests globally
+app.options("/", privateCors);
+
 
 /* -------------------- RATE LIMITING -------------------- */
 const authLimiter = rateLimit({
@@ -71,10 +80,10 @@ const authLimiter = rateLimit({
   standardHeaders: true
 });
 
-app.use("/login", authLimiter);
-app.use("/signup", authLimiter);
-app.use("/refresh", authLimiter);
-app.use("/forgot-password", authLimiter);
+app.use("/login", privateCors, authLimiter);
+app.use("/signup", privateCors, authLimiter);
+app.use("/refresh", privateCors, authLimiter);
+app.use("/forgot-password", privateCors, authLimiter);
 
 /* -------------------- CSRF -------------------- */
 const csrfProtection = csrf({
@@ -82,7 +91,7 @@ const csrfProtection = csrf({
   ignoreMethods: ["GET", "HEAD", "OPTIONS"]
 });
 
-app.get("/csrf-token", csrfProtection, (req, res) => {
+app.get("/csrf-token", privateCors, csrfProtection, (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 
@@ -143,8 +152,10 @@ const auth = async (req, res, next) => {
 
 const dashboardRoutes = require("./routes/dashboard");
 const userchatRoutes = require("./routes/userchat");
-app.use("/api/dashboard",auth, dashboardRoutes);
-app.use("/api/chat", userchatRoutes);
+app.use("/api/dashboard", privateCors, auth, dashboardRoutes);
+app.use("/api/chat", publicCors, userchatRoutes);
+
+
 
 
 /* -------------------- EMAIL -------------------- */
@@ -159,12 +170,12 @@ const transporter = nodemailer.createTransport({
 /* -------------------- ROUTES -------------------- */
 
 // Signup
-app.post("/signup",csrfProtection,body("email").isEmail(),body("password").custom((value) => {
-    if (!value || value.length < 6) {
-      throw new Error("Password must be at least 6 characters");
-    }
-    return true;
-  }),
+app.post("/signup", csrfProtection, body("email").isEmail(), body("password").custom((value) => {
+  if (!value || value.length < 6) {
+    throw new Error("Password must be at least 6 characters");
+  }
+  return true;
+}),
   async (req, res) => {
     if (!validationResult(req).isEmpty())
       return res.status(400).json({ message: "Invalid input" });
@@ -291,8 +302,10 @@ app.post("/refresh", csrfProtection, async (req, res) => {
   res.json({ success: true });
 });
 
+app.options("/logout", privateCors);
+
 // Logout
-app.post("/logout", auth, csrfProtection, async (req, res) => {
+app.post("/logout", privateCors, auth, csrfProtection, async (req, res) => {
   req.user.tokenVersion += 1;
   req.user.refreshToken = undefined;
   await req.user.save();
@@ -303,8 +316,9 @@ app.post("/logout", auth, csrfProtection, async (req, res) => {
   res.json({ success: true });
 });
 
+app.options("/userprofile", privateCors);
 // Get user profile
-app.get("/userprofile", auth, (req, res) => {
+app.get("/userprofile", privateCors, auth,csrfProtection, (req, res) => {
   res.json({ email: req.user.email });
 });
 
