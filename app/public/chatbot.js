@@ -12,6 +12,11 @@
   const API_BASE = script.getAttribute("data-api");
   const ASSETS_BASE = script.getAttribute("data-assets");
 
+  /* ---------- Make bot live immediately ---------- */
+  fetch(`${API_BASE}/api/chat/${BOT_ID}/register`, { method: "POST" })
+    .then(() => console.log("Bot registered as live"))
+    .catch(err => console.error("Failed to register bot as live", err));
+
   if (!BOT_ID || !API_BASE || !ASSETS_BASE) {
     console.error("Chatbot: Missing data-bot-id, data-api or data-assets");
     return;
