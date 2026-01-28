@@ -113,8 +113,11 @@ const sendAuthCookies = (res, accessToken, refreshToken) => {
 
 function generateEmbedCode(botId) {
   return `<script 
-    src="${process.env.CLIENT_URL}/chat.js" 
-    data-bot-id="${botId}">
+    src="${process.env.CLIENT_URL}/chatbot.js" 
+    data-bot-id="${botId}"
+    data-api="${process.env.SERVER_URL}"
+    data-assets="${process.env.CLIENT_URL}"
+    >
   </script>`;
 }
 
@@ -139,7 +142,10 @@ const auth = async (req, res, next) => {
 };
 
 const dashboardRoutes = require("./routes/dashboard");
+const userchatRoutes = require("./routes/userchat");
 app.use("/api/dashboard",auth, dashboardRoutes);
+app.use("/api/chat", userchatRoutes);
+
 
 /* -------------------- EMAIL -------------------- */
 const transporter = nodemailer.createTransport({
