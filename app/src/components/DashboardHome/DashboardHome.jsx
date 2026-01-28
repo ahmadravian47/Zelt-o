@@ -9,6 +9,7 @@ export default function DashboardHome({ data }) {
     if (!data) return <div>Loading...</div>;
 
     const { user, organization, faqCount, recentChats, stats } = data;
+    console.log(data);
 
     return (
         <div style={{ flex: 1 }}>
@@ -85,8 +86,11 @@ export default function DashboardHome({ data }) {
                             <h4 style={{ margin: "0 0 10px 0" }}>Embed Code</h4>
                             <p style={{ fontSize: "12px", color: "#94A3B8", marginBottom: "10px" }}>Add this code to your website:</p>
                             <div className="code-container">
-                                <code dangerouslySetInnerHTML={{ __html: organization.bot.embedCode }} />
+                                <pre>
+                                    <code>{organization.bot.embedCode}</code>
+                                </pre>
                             </div>
+
                             <button className="dashboard-primary-btn" style={{ width: "100%", marginTop: "15px" }}>Copy Code</button>
                         </div>
                     </div>
