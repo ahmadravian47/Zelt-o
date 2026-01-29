@@ -136,7 +136,6 @@ const checkBotStatus = async () => {
     { "bot.lastSeen": { $lt: threshold } },
     { $set: { "bot.isLive": false } }
   );
-  console.log("Checked bot statuses:", botsToOffline);
 };
 
 // Run every 3 minutes

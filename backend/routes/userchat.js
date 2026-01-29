@@ -3,8 +3,6 @@ const express = require("express");
 const router = express.Router();
 const Organization = require("../models/Organization"); // your org schema
 
-// Optional: Use MongoDB collection to store chat history
-// const ChatSession = require("../models/ChatSession");
 
 router.post("/:botId", async (req, res) => {
   const { botId } = req.params;

@@ -14,7 +14,7 @@
 
   /* ---------- Make bot live immediately ---------- */
   fetch(`${API_BASE}/api/chat/${BOT_ID}/register`, { method: "POST" })
-    .then(() => console.log("Bot registered as live"))
+    .then(() => {})
     .catch(err => console.error("Failed to register bot as live", err));
 
   if (!BOT_ID || !API_BASE || !ASSETS_BASE) {
@@ -25,7 +25,7 @@
   // Heartbeat: ping backend every 5 minutes to update the last seen of bot
   setInterval(() => {
     fetch(`${API_BASE}/api/chat/${BOT_ID}/heartbeat`, { method: "POST" })
-      .then(() => console.log("Heartbeat sent"))
+      .then(() => {})
       .catch(err => console.error("Heartbeat failed", err));
   }, 5 * 60 * 1000); // every 5 minutes
 
