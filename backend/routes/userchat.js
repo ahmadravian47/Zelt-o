@@ -58,9 +58,27 @@ router.post("/:botId/register", async (req, res) => {
   if (!org) return res.status(404).json({ success: false });
   if (!org.bot.isLive) {
     org.bot.isLive = true;
+    org.bot.lastSeen = new Date();
     await org.save();
   }
   res.json({ success: true });
+});
+
+// POST /api/chat/:botId/heartbeat
+router.post("/:botId/heartbeat", async (req, res) => {
+  try {
+    const org = await Organization.findOne({ "bot.botId": req.params.botId });
+    if (!org) return res.status(404).json({ success: false });
+
+    org.bot.lastSeen = new Date();
+    org.bot.isLive = true; 
+    await org.save();
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
 });
 
 

@@ -55,8 +55,8 @@ app.use(cookieParser());
 const privateCors = cors({
   origin: CLIENT_URL,
   credentials: true,
-  allowedHeaders: ["Content-Type", "X-CSRF-Token"], 
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] 
+  allowedHeaders: ["Content-Type", "X-CSRF-Token"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 });
 
 // 🌍 Public Chatbot Embed API
@@ -129,6 +129,19 @@ function generateEmbedCode(botId) {
     >
   </script>`;
 }
+
+const checkBotStatus = async () => {
+  const threshold = new Date(Date.now() - 1 * 60 * 1000); // if a bot is offline for timemore then threshold (1s)
+  const botsToOffline = await Organization.updateMany(
+    { "bot.lastSeen": { $lt: threshold } },
+    { $set: { "bot.isLive": false } }
+  );
+  console.log("Checked bot statuses:", botsToOffline);
+};
+
+// Run every 3 minutes
+setInterval(checkBotStatus, 3 * 60 * 1000);
+
 
 
 /* -------------------- AUTH MIDDLEWARE -------------------- */
@@ -318,7 +331,7 @@ app.post("/logout", privateCors, auth, csrfProtection, async (req, res) => {
 
 app.options("/userprofile", privateCors);
 // Get user profile
-app.get("/userprofile", privateCors, auth,csrfProtection, (req, res) => {
+app.get("/userprofile", privateCors, auth, csrfProtection, (req, res) => {
   res.json({ email: req.user.email });
 });
 

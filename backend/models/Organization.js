@@ -31,6 +31,7 @@ const organizationSchema = new mongoose.Schema(
         type: String,
         unique: true,
       },
+      lastSeen: Date,
     },
 
     branding: {

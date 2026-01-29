@@ -22,6 +22,14 @@
     return;
   }
 
+  // Heartbeat: ping backend every 5 minutes to update the last seen of bot
+  setInterval(() => {
+    fetch(`${API_BASE}/api/chat/${BOT_ID}/heartbeat`, { method: "POST" })
+      .then(() => console.log("Heartbeat sent"))
+      .catch(err => console.error("Heartbeat failed", err));
+  }, 5 * 60 * 1000); // every 5 minutes
+
+
   /* ---------- Create Container ---------- */
   const container = document.createElement("div");
   container.id = "ai-chatbot-container";
