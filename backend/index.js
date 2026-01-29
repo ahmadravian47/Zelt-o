@@ -56,7 +56,7 @@ const privateCors = cors({
   origin: CLIENT_URL,
   credentials: true,
   allowedHeaders: ["Content-Type", "X-CSRF-Token"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"]
 });
 
 // 🌍 Public Chatbot Embed API
@@ -164,7 +164,9 @@ const auth = async (req, res, next) => {
 
 const dashboardRoutes = require("./routes/dashboard");
 const userchatRoutes = require("./routes/userchat");
+const botsettingsRoutes=require("./routes/botsettings")
 app.use("/api/dashboard", privateCors, auth, dashboardRoutes);
+app.use("/api/botsettings", privateCors,auth, botsettingsRoutes);
 app.use("/api/chat", publicCors, userchatRoutes);
 
 

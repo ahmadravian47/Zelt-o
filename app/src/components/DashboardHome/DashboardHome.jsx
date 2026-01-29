@@ -20,7 +20,7 @@ export default function DashboardHome({ data }) {
                 </header>
 
                 <p style={{ marginBottom: "25px", fontWeight: "500" }}>
-                    Your AI Chatbot is <span style={{ color: organization.branding.primaryColor }}>{organization.bot.isLive ? "Live" : "Offline"}</span> on Your Site.
+                    Your AI Chatbot is <span style={{ color: '#f25534' }}>{organization.bot.isLive ? "Live" : "Offline"}</span> on Your Site.
                 </p>
 
                 {/* Stats Row */}

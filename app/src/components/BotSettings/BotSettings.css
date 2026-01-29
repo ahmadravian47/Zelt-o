@@ -1,0 +1,271 @@
+.bs-layout-root {
+  width: 80%;
+  margin: 60px auto;
+  padding: 0 20px;
+  color: #2d3436;
+  margin-top: 2rem;
+}
+
+.bs-header-area {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.bs-main-title {
+  font-size: 24px;
+  font-weight: 900;
+  text-align: left;
+}
+
+/* Glass Card Style */
+.bs-config-section {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bs-config-section:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+  border-color: #D9705A;
+}
+
+.bs-section-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Segmented Control for AI Engine */
+.bs-segmented-control {
+  display: flex;
+  background: #f1f1f1;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.bs-segment-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.bs-segment-btn.active {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #D9705A;
+}
+
+/* Floating Input Style */
+.bs-input-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.bs-text-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #ececec;
+  border-radius: 12px;
+  background: white;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.bs-text-input:focus {
+  outline: none;
+  border-color: #D9705A;
+}
+
+/* Color Swatch Circle */
+.bs-color-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f8f8;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.bs-color-preview-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 1px #ddd;
+}
+
+/* Save Button - Floating Style */
+.bs-submit-trigger {
+  background: #D9705A;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight:normal;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.2s;
+}
+
+.bs-submit-trigger:hover {
+  background: #D9705A;
+  transform: scale(1.01);
+}
+
+.bs-status-pill {
+  display: block;
+  text-align: left;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+
+/* Stack layout for choices */
+.bs-ux-selection-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.bs-ux-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+}
+
+.bs-ux-card:hover {
+  border-color: #cbd5e1;
+  background: #fcfcfd;
+}
+
+.bs-ux-card.is-selected {
+  border-color: #f25534; 
+   /* background: #fffafa; */
+  box-shadow: 0 4px 12px rgba(242, 85, 52, 0.08);
+}
+
+.bs-ux-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Custom Checkbox UX */
+.bs-ux-check-wrapper {
+  padding-top: 4px;
+}
+
+.bs-ux-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  position: relative;
+}
+
+.is-selected .bs-ux-check {
+  border-color: #D9705A;
+  background: #D9705A;
+}
+
+/* Tags for visual distinction */
+.bs-tag-eco,
+.bs-tag-pro {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.bs-tag-eco {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.bs-tag-pro {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Nested Field UX */
+.bs-ux-nested-field {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.bs-key-input-container {
+  position: relative;
+}
+
+.bs-secure-indicator {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: #10b981;
+  font-weight: 700;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.bs-ux-status {
+  text-align: left;
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgb(5, 155, 5);
+}
+
+.bs-animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+.bs-submit-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none; /* This hard-prevents any clicks */
+}
+
+.bs-type-success {
+  color: rgb(5, 155, 5);
+}
+
+.bs-type-error {
+  color: #dc2626; /* red */
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

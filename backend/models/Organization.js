@@ -40,6 +40,18 @@ const organizationSchema = new mongoose.Schema(
         default: "#D9705A",
       },
     },
+
+    ai: {
+      openAiKey: {
+        type: String,
+        select: false, // important for security
+      },
+      provider: {
+        type: String,
+        enum: ["internal", "openai"],
+        default: "internal",
+      }
+    }
   },
   { timestamps: true }
 );
