@@ -1,0 +1,63 @@
+.desc-container {
+  padding: 24px 0;
+  border-radius: 12px;
+  width: 80%;
+  margin: 0 auto;
+
+}
+
+.desc-title {
+  margin-top: 1rem;
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.desc-subtitle {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.desc-textarea {
+  width: 100%;
+  min-height: 400px;
+  padding: 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  resize: vertical;
+  outline: none;
+  background: #fff;
+}
+
+.desc-textarea:focus {
+  border-color: #f25534;
+  box-shadow: 0 0 0 2px rgba(242, 85, 52, 0.15);
+}
+
+.desc-save-btn {
+  margin-top: 16px;
+  background: #D9705A;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.desc-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.desc-message {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #065F46;
+}
+
+.desc-loading {
+  font-size: 14px;
+  color: #6B7280;
+}

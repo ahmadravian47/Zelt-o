@@ -19,6 +19,13 @@ const organizationSchema = new mongoose.Schema(
       required: true,
     },
 
+    businessDescription: {
+      type: String,
+      required: true,
+      maxlength: 2000, // prevents prompt abuse
+    },
+
+
     bot: {
       isLive: {
         type: Boolean,
