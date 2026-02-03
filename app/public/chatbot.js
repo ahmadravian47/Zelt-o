@@ -1,47 +1,34 @@
 // chatbot.js
 (function () {
-  // Prevent loading twice
   if (window.__AI_CHATBOT_LOADED__) return;
   window.__AI_CHATBOT_LOADED__ = true;
 
-  // Get the script tag that included this JS
   const script = document.currentScript;
 
-  // Read configuration from data attributes
   const BOT_ID = script.getAttribute("data-bot-id");
   const API_BASE = script.getAttribute("data-api");
   const ASSETS_BASE = script.getAttribute("data-assets");
 
-  /* ---------- Make bot live immediately ---------- */
-  fetch(`${API_BASE}/api/chat/${BOT_ID}/register`, { method: "POST" })
-    .then(() => {})
-    .catch(err => console.error("Failed to register bot as live", err));
-
   if (!BOT_ID || !API_BASE || !ASSETS_BASE) {
-    console.error("Chatbot: Missing data-bot-id, data-api or data-assets");
+    console.error("Chatbot: Missing data attributes");
     return;
   }
 
-  // Heartbeat: ping backend every 5 minutes to update the last seen of bot
+  fetch(`${API_BASE}/api/chat/${BOT_ID}/register`, { method: "POST" }).catch(() => { });
+
   setInterval(() => {
-    fetch(`${API_BASE}/api/chat/${BOT_ID}/heartbeat`, { method: "POST" })
-      .then(() => {})
-      .catch(err => console.error("Heartbeat failed", err));
-  }, 5 * 60 * 1000); // every 5 minutes
+    fetch(`${API_BASE}/api/chat/${BOT_ID}/heartbeat`, { method: "POST" }).catch(() => { });
+  }, 5 * 60 * 1000);
 
-
-  /* ---------- Create Container ---------- */
   const container = document.createElement("div");
   container.id = "ai-chatbot-container";
   document.body.appendChild(container);
 
-  /* ---------- Load CSS Dynamically ---------- */
   const css = document.createElement("link");
   css.rel = "stylesheet";
-  css.href = `${ASSETS_BASE}/chatbot.css`; // load from assets URL
+  css.href = `${ASSETS_BASE}/chatbot.css`;
   document.head.appendChild(css);
 
-  /* ---------- Inject HTML ---------- */
   container.innerHTML = `
     <div class="chatbot-launcher" id="chatbot-launcher">💬</div>
     <div class="chatbot-window hidden" id="chatbot-window">
@@ -57,7 +44,6 @@
     </div>
   `;
 
-  /* ---------- Elements ---------- */
   const launcher = document.getElementById("chatbot-launcher");
   const windowEl = document.getElementById("chatbot-window");
   const closeBtn = document.getElementById("chatbot-close");
@@ -65,37 +51,105 @@
   const sendBtn = document.getElementById("chatbot-send");
   const messagesEl = document.getElementById("chatbot-messages");
 
-  /* ---------- Visitor ID ---------- */
-  let visitorId = localStorage.getItem(`visitor_${BOT_ID}`);
-  if (!visitorId) {
-    visitorId = "v_" + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem(`visitor_${BOT_ID}`, visitorId);
+  // ----- Visitor ID -----
+  function createVisitor() {
+    const id = "v_" + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem(`visitor_${BOT_ID}`, id);
+    return id;
   }
 
-  /* ---------- Helpers ---------- */
-  function addMessage(text, sender) {
+  let visitorId = localStorage.getItem(`visitor_${BOT_ID}`) || createVisitor();
+
+  // ----- LocalStorage keys -----
+  const CHAT_KEY = `chat_${BOT_ID}`;
+  const CHAT_START_KEY = `chat_start_${BOT_ID}`;
+
+  // ----- Chat storage functions -----
+  function saveChat(messages) {
+    localStorage.setItem(CHAT_KEY, JSON.stringify(messages));
+  }
+
+  function loadChat() {
+    const raw = localStorage.getItem(CHAT_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  function getChatStart() {
+    const ts = localStorage.getItem(CHAT_START_KEY);
+    return ts ? parseInt(ts) : null;
+  }
+
+  function setChatStart() {
+    localStorage.setItem(CHAT_START_KEY, Date.now());
+  }
+
+  function clearChat() {
+    localStorage.removeItem(CHAT_KEY);
+    localStorage.removeItem(CHAT_START_KEY);
+    messagesEl.innerHTML = "";
+  }
+
+  // ----- Check if 24 hours passed -----
+  const chatStart = getChatStart();
+  if (chatStart && Date.now() - chatStart >= 24 * 60 * 60 * 1000) {
+    fetch(`${API_BASE}/api/chat/${BOT_ID}/end`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorId }),
+    }).catch(() => { });
+    clearChat();
+  }
+
+  // ----- Render messages -----
+  function renderMessages() {
+    messagesEl.innerHTML = "";
+    const messages = loadChat();
+    messages.forEach(({ text, sender }) => {
+      addMessage(text, sender, false);
+    });
+  }
+
+  // ----- Add message -----
+  function addMessage(text, sender, save = true) {
     const msg = document.createElement("div");
     msg.className = `chatbot-message ${sender}`;
     msg.textContent = text;
     messagesEl.appendChild(msg);
     messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    if (save) {
+      const messages = loadChat();
+      messages.push({ text, sender });
+      saveChat(messages);
+      if (!getChatStart()) setChatStart();
+    }
   }
 
+  // ----- Typing indicator -----
   function showTyping() {
-    const typing = document.createElement("div");
-    typing.className = "chatbot-message bot typing";
-    typing.id = "typing-indicator";
-    typing.textContent = "Typing...";
-    messagesEl.appendChild(typing);
+    const t = document.createElement("div");
+    t.className = "chatbot-message bot typing";
+    t.id = "typing-indicator";
+    t.textContent = "Typing...";
+    messagesEl.appendChild(t);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
   function hideTyping() {
-    const typing = document.getElementById("typing-indicator");
-    if (typing) typing.remove();
+    const t = document.getElementById("typing-indicator");
+    if (t) t.remove();
   }
 
-  /* ---------- Send Message to Backend ---------- */
+  // ----- Welcome message -----
+  const greetedKey = `greeted_${BOT_ID}`;
+  function showWelcomeMessage() {
+    if (!localStorage.getItem(greetedKey)) {
+      setTimeout(() => addMessage("Hi 👋 How can I help you?"), 400);
+      localStorage.setItem(greetedKey, "1");
+    }
+  }
+
+  // ----- Send message -----
   async function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
@@ -108,29 +162,29 @@
       const res = await fetch(`${API_BASE}/api/chat/${BOT_ID}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          visitorId,
-          message: text
-        }),
+        body: JSON.stringify({ visitorId, message: text }),
       });
 
       const data = await res.json();
       hideTyping();
       addMessage(data.reply || "Sorry, I couldn't answer that.", "bot");
-
-    } catch (err) {
+    } catch {
       hideTyping();
       addMessage("Something went wrong. Please try again.", "bot");
-      console.error(err);
     }
   }
 
-  /* ---------- Event Listeners ---------- */
-  launcher.onclick = () => windowEl.classList.remove("hidden");
+  // ----- Events -----
+  launcher.onclick = () => {
+    windowEl.classList.remove("hidden");
+    renderMessages();
+    showWelcomeMessage();
+  };
+
   closeBtn.onclick = () => windowEl.classList.add("hidden");
   sendBtn.onclick = sendMessage;
 
-  input.addEventListener("keydown", (e) => {
+  input.addEventListener("keydown", e => {
     if (e.key === "Enter") sendMessage();
   });
 })();

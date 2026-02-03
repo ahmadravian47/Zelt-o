@@ -1,4 +1,24 @@
 const mongoose = require("mongoose");
+
+const messageSchema = new mongoose.Schema(
+  {
+    sender: {
+      type: String,
+      enum: ["user", "bot"],
+      required: true,
+    },
+    text: {
+      type: String,
+      required: true,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false }
+);
+
 const chatSchema = new mongoose.Schema(
   {
     organizationNumber: {
@@ -7,8 +27,19 @@ const chatSchema = new mongoose.Schema(
       index: true,
     },
 
+    visitorId: {
+      type: String,
+      required: true,
+      index: true,
+    },
+
     visitorName: {
       type: String,
+    },
+
+    messages: {
+      type: [messageSchema],
+      default: [],
     },
 
     sentiment: {
@@ -20,6 +51,7 @@ const chatSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+      index: true,
     },
   },
   { timestamps: true }

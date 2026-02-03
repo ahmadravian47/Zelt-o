@@ -5,14 +5,13 @@ const User = require("../models/User");
 const Organization = require("../models/Organization");
 const FAQ = require("../models/Faq");
 const Chat = require("../models/Chat");
-const Message = require("../models/Message");
 
 
 
-router.get("/",async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const user = req.user;
-       
+
         const org = await Organization.findOne({ organizationNumber: user.organizationNumber });
         if (!org) {
             return res.status(404).json({ message: "Organization not found" });
@@ -32,10 +31,26 @@ router.get("/",async (req, res) => {
         const positive = await Chat.countDocuments({ organizationNumber: org.organizationNumber, sentiment: "positive" });
         const neutral = await Chat.countDocuments({ organizationNumber: org.organizationNumber, sentiment: "neutral" });
         const negative = await Chat.countDocuments({ organizationNumber: org.organizationNumber, sentiment: "negative" });
-        const questionsAnswered = await Message.countDocuments({
-            chatId: { $in: recentChats.map(c => c._id) },
-            sender: "bot"
-        });
+        const messagesAgg = await Chat.aggregate([
+            {
+                $match: { organizationNumber: org.organizationNumber }
+            },
+            {
+                $project: {
+                    messageCount: { $size: "$messages" }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalMessages: { $sum: "$messageCount" }
+                }
+            }
+        ]);
+
+        const questionsAnswered = (messagesAgg[0]?.totalMessages || 0)/2;
+
+
         const activeChats = await Chat.countDocuments({ organizationNumber: org.organizationNumber, isActive: true });
 
         res.json({

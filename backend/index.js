@@ -14,7 +14,6 @@ const { body, validationResult } = require("express-validator");
 
 const Chat = require("./models/Chat");
 const Faq = require("./models/Faq");
-const Message = require("./models/Message");
 const Organization = require("./models/Organization");
 const User = require("./models/User");
 const Pending = require("./models/Pending");
