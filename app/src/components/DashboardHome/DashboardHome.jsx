@@ -19,9 +19,9 @@ export default function DashboardHome({ data }) {
                     <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} className="header-avatar" alt="profile" />
                 </header>
 
-                <p style={{ marginBottom: "25px", fontWeight: "500" }}>
+                {/* <p style={{ marginBottom: "25px", fontWeight: "500" }}>
                     Your AI Chatbot is <span style={{ color: '#f25534' }}>{organization.bot.isLive ? "Live" : "Offline"}</span> on Your Site.
-                </p>
+                </p> */}
 
                 {/* Stats Row */}
                 <div className="stats-grid">

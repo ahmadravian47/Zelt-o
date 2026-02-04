@@ -8,7 +8,7 @@
 }
 
 /* Card */
-.login-card {
+.login-parent .login-card {
     width: 100%;
     max-width: 420px;
     background: #ffffff;
@@ -19,7 +19,7 @@
 }
 
 /* Subtitle */
-.login-subtitle {
+.login-parent .login-subtitle {
     text-align: center;
     font-size: 14px;
     color: #6b7280;
@@ -28,12 +28,12 @@
 }
 
 /* Inputs */
-.input-group {
+.login-parent .input-group {
     position: relative;
     margin-bottom: 16px;
 }
 
-.input-group input {
+.login-parent .input-group input {
     width: 100%;
     padding: 12px 40px 12px 40px;
     border-radius: 8px;
@@ -42,12 +42,12 @@
     outline: none;
 }
 
-.input-group input:focus {
+.login-parent .input-group input:focus {
     border-color: #000;
 }
 
 /* Icons */
-.input-icon {
+.login-parent .input-icon {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -58,7 +58,7 @@
 }
 
 /* Eye button */
-.eye-btn {
+.login-parent .eye-btn {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -70,32 +70,32 @@
 }
 
 /* Forgot password */
-.forgot-password {
+.login-parent .forgot-password {
     text-align: right;
     margin-bottom: 16px;
 }
 
-.forgot-password a {
+.login-parent .forgot-password a {
     font-size: 13px;
     color: #4b5563;
     text-decoration: underline;
 }
 
 /* Terms */
-.terms {
+.login-parent .terms {
     font-size: 12px;
     color: #6b7280;
     margin-bottom: 20px;
 }
 
-.terms a {
+.login-parent .terms a {
     color: #374151;
     font-weight: 600;
     text-decoration: underline;
 }
 
 /* Login button */
-.login-btn {
+.login-parent .login-btn {
     width: 100%;
     background: #f25534;
     color: #fff;
@@ -107,33 +107,29 @@
     cursor: pointer;
 }
 
-.login-btn:hover {
-    background: #1f2937;
-}
-
 /* Divider */
-.divider {
+.login-parent .divider {
     display: flex;
     align-items: center;
     margin: 24px 0;
 }
 
-.divider::before,
-.divider::after {
+.login-parent .divider::before,
+.login-parent .divider::after {
     content: "";
     flex: 1;
     height: 1px;
     background: #d1d5db;
 }
 
-.divider span {
+.login-parent .divider span {
     margin: 0 12px;
     font-size: 13px;
     color: #6b7280;
 }
 
 /* Google button */
-.google-btn {
+.login-parent .google-btn {
     width: 100%;
     border: 1px solid #d1d5db;
     padding: 10px;
@@ -146,33 +142,63 @@
     cursor: pointer;
 }
 
-.google-btn:hover {
+.login-parent .google-btn:hover {
     background: #f3f4f6;
 }
 
-.google-btn img {
+.login-parent .google-btn img {
     width: 14px;
 }
 
 /* Signup */
-.signup-text {
+.login-parent .signup-text {
     margin-top: 20px;
     text-align: center;
     font-size: 14px;
     color: #4b5563;
 }
 
-.signup-text a {
+.login-parent .signup-text a {
     color: #111827;
     text-decoration: underline;
     margin-left: 4px;
 }
 
+.login-parent .login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 1;
+}
+
+.login-parent .login-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Loader */
+.login-parent .loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 @media screen and (max-width:600px) {
-    .login-parent{
+    .login-parent .login-parent{
         background-color: white;
     }
-    .login-card{
+    .login-parent .login-card{
         border: none;
         box-shadow: none;
     }

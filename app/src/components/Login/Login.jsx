@@ -10,33 +10,55 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (loading) return;
 
-        const csrfRes = await fetch(`${import.meta.env.VITE_SERVER_URL}/csrf-token`, {
-            credentials: "include"
-        });
-        const { csrfToken } = await csrfRes.json();
+        try {
+            setLoading(true);
 
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/login`, {
-            method: "POST",
-            credentials: "include",
-            headers:
-            {
-                "Content-Type": "application/json",
-                "X-CSRF-Token": csrfToken
-            },
-            body: JSON.stringify({ email:emailOrPhone, password }),
-        });
+            // Get CSRF token
+            const csrfRes = await fetch(
+                `${import.meta.env.VITE_SERVER_URL}/csrf-token`,
+                { credentials: "include" }
+            );
 
-        const data = await res.json();
-        if (res.ok && data.success) {
-            navigate("/dashboard");
-        } else {
-            alert(data.error || "Login failed");
+            if (!csrfRes.ok) {
+                throw new Error("Failed to fetch CSRF token");
+            }
+
+            const { csrfToken } = await csrfRes.json();
+
+            // Login request
+            const res = await fetch(
+                `${import.meta.env.VITE_SERVER_URL}/login`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfToken
+                    },
+                    body: JSON.stringify({ email: emailOrPhone, password }),
+                }
+            );
+
+            const data = await res.json();
+            if (res.ok && data.success) {
+                navigate("/dashboard");
+            } else {
+                throw new Error(data.error || "Login failed");
+            }
+
+        } catch (error) {
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
+
 
     const handleGoogleLogin = () => {
         window.open(`${import.meta.env.VITE_SERVER_URL}/auth/google`, "_self");
@@ -46,7 +68,7 @@ const Login = () => {
         <div className="login-parent">
 
             <div className="login-card">
-                <div className="logo-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}  onClick={() => navigate("/")}>
+                <div className="logo-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => navigate("/")}>
                     <div className="logo-icon">
                         <svg
                             viewBox="0 0 24 24"
@@ -106,8 +128,12 @@ const Login = () => {
                         <a href="#">Privacy Policy</a>.
                     </p>
 
-                    <button type="submit" className="login-btn">
-                        Log in
+                    <button type="submit" className="login-btn" disabled={loading}>
+                        {loading ? (
+                            <span className="loader"></span>
+                        ) : (
+                            "Log in"
+                        )}
                     </button>
                 </form>
 

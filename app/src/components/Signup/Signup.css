@@ -8,16 +8,16 @@
 }
 
 /* Logo */
-.signup-logo {
+.signup-parent .signup-logo {
     margin-bottom: 12px;
 }
 
-.signup-logo img {
+.signup-parent .signup-logo img {
     height: 50px;
 }
 
 /* Card */
-.signup-card {
+.signup-parent .signup-card {
     width: 100%;
     max-width: 420px;
     background: #ffffff;
@@ -28,7 +28,7 @@
 }
 
 /* Subtitle */
-.signup-subtitle {
+.signup-parent .signup-subtitle {
     text-align: center;
     font-size: 14px;
     color: #6b7280;
@@ -37,12 +37,12 @@
 }
 
 /* Inputs */
-.input-group {
+.signup-parent .input-group {
     position: relative;
     margin-bottom: 16px;
 }
 
-.input-group input {
+.signup-parent .input-group input {
     width: 100%;
     padding: 12px 40px 12px 40px;
     border-radius: 8px;
@@ -51,12 +51,12 @@
     outline: none;
 }
 
-.input-group input:focus {
+.signup-parent .input-group input:focus {
     border-color: #000;
 }
 
 /* Icons */
-.input-icon {
+.signup-parent .input-icon {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -67,7 +67,7 @@
 }
 
 /* Eye button */
-.eye-btn {
+.signup-parent .eye-btn {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -79,20 +79,20 @@
 }
 
 /* Terms */
-.terms {
+.signup-parent .terms {
     font-size: 12px;
     color: #6b7280;
     margin-bottom: 20px;
 }
 
-.terms a {
+.signup-parent .terms a {
     color: #374151;
     font-weight: 600;
     text-decoration: underline;
 }
 
 /* Signup button */
-.signup-btn {
+.signup-parent .signup-btn {
     width: 100%;
     background: #f25534;
     color: #fff;
@@ -105,33 +105,29 @@
     margin-bottom: 16px;
 }
 
-.signup-btn:hover {
-    background: #1f2937;
-}
-
 /* Divider */
-.divider {
+.signup-parent .divider {
     display: flex;
     align-items: center;
     margin: 24px 0;
 }
 
-.divider::before,
-.divider::after {
+.signup-parent .divider::before,
+.signup-parent .divider::after {
     content: "";
     flex: 1;
     height: 1px;
     background: #d1d5db;
 }
 
-.divider span {
+.signup-parent .divider span {
     margin: 0 12px;
     font-size: 13px;
     color: #6b7280;
 }
 
 /* Google button */
-.google-btn {
+.signup-parent .google-btn {
     width: 100%;
     border: 1px solid #d1d5db;
     padding: 10px;
@@ -144,34 +140,64 @@
     cursor: pointer;
 }
 
-.google-btn:hover {
+.signup-parent .google-btn:hover {
     background: #f3f4f6;
 }
 
-.google-btn img {
+.signup-parent .google-btn img {
     width: 14px;
 }
 
 /* Login text */
-.login-text {
+.signup-parent .login-text {
     margin-top: 20px;
     text-align: center;
     font-size: 14px;
     color: #4b5563;
 }
 
-.login-text a {
+.signup-parent .login-text a {
     color: #111827;
     text-decoration: underline;
     margin-left: 4px;
 }
 
+.signup-parent .signup-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 1;
+}
+
+.signup-parent .signup-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Loader */
+.signup-parent .loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 
 @media screen and (max-width:600px) {
-    .signup-parent{
+    .signup-parent .signup-parent{
         background-color: white;
     }
-    .signup-card{
+    .signup-parent .signup-card{
         border: none;
         box-shadow: none;
     }

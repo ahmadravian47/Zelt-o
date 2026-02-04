@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom'
 import './Section3.css';
 
 const Section3 = () => {
@@ -82,7 +83,7 @@ const Section3 = () => {
                     </ul>
 
                     <div className="ims-footer-cta">
-                        <button className="ims-cta-btn">Get a demo</button>
+                        <Link to='/signup' className="ims-cta-btn">Get a demo</Link>
                         <div className="ims-avatar-stack">
                             {avatars.map((url, i) => (
                                 <img key={i} src={url} alt="Expert" className="ims-expert-photo" />

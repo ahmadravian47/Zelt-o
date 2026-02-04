@@ -221,7 +221,8 @@ app.post("/signup", csrfProtection, body("email").isEmail(), body("password").cu
     await transporter.sendMail({
       to: email,
       subject: "Verify your account",
-      html: `<a href="${link}">Verify Email</a>`
+      html: `  <p>Please verify your email address by clicking the button below:</p>
+      <a href="${link}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: black; text-align: center; text-decoration: none; border-radius: 5px;">Verify Email</a>`
     });
 
     res.json({ message: "Verification email sent" });
@@ -262,7 +263,8 @@ app.get("/verify", async (req, res) => {
     await Organization.create({
       organizationNumber: user.organizationNumber,
       owner: user._id,
-      businessName: "My Business", // placeholder
+      businessName: "My Business",
+      businessDescription: "My Description",
       bot: {
         botId,
         embedCode: generateEmbedCode(botId),

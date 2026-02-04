@@ -10,38 +10,51 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (loading) return;
 
-        const csrfRes = await fetch(`${import.meta.env.VITE_SERVER_URL}/csrf-token`, {
-            credentials: "include"
-        });
-        const { csrfToken } = await csrfRes.json();
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/signup`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-Token": csrfToken
-            },
-            body: JSON.stringify({ name, email: emailOrPhone, password })
-        });
+        try {
+            setLoading(true);
 
+            const csrfRes = await fetch(`${import.meta.env.VITE_SERVER_URL}/csrf-token`, {
+                credentials: "include"
+            });
+            const { csrfToken } = await csrfRes.json();
 
-        const data = await res.json();
-        if (res.ok) {
-            alert(data.message);
-        } else {
-            alert(data.message || "Signup failed");
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/signup`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-Token": csrfToken
+                },
+                body: JSON.stringify({ name, email: emailOrPhone, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert(data.message);
+            } else {
+                alert(data.message || "Signup failed");
+            }
+        } catch (err) {
+            console.log(err);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
+
 
     return (
         <div className="signup-parent">
             {/* Card */}
             <div className="signup-card">
-                <div className="logo-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}  onClick={() => navigate("/")}>
+                <div className="logo-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => navigate("/")}>
                     <div className="logo-icon">
                         <svg
                             viewBox="0 0 24 24"
@@ -108,9 +121,18 @@ const Signup = () => {
                         <a href="#">Privacy Policy</a>.
                     </p>
 
-                    <button type="submit" className="signup-btn">
-                        Sign up
+                    <button
+                        type="submit"
+                        className="signup-btn"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <span className="loader"></span>
+                        ) : (
+                            "Sign up"
+                        )}
                     </button>
+
                 </form>
 
                 {/* Divider */}

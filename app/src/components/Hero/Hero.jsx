@@ -17,8 +17,8 @@ export default function Hero() {
                 so you can focus on running your business.
             </p>
             <div className="hero-buttons">
-                <Link className='primary-button' to='/'>Get a Demo</Link>
-                <Link className='secondary-button' to='/'>Create My ChatBot</Link>
+                <Link className='primary-button' to='/signup'>Get a Demo</Link>
+                <Link className='secondary-button' to='/login'>Create My ChatBot</Link>
             </div>
             <div className="hero-img">
                 <img src={hero_img} alt="" />

@@ -194,6 +194,8 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    list-style: none;
+    text-decoration: none;
 }
 
 .ims-cta-btn:hover {

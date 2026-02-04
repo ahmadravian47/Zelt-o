@@ -100,11 +100,6 @@
   color: white;
 }
 
-.nav-item:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.051);
-  color: white;
-}
-
 .nav-label {
   font-size: 14px;
   font-weight: 500;

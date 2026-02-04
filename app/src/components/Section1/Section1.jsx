@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom'
 import { Book, Network, BarChart3, Puzzle, Sparkles, ArrowRight } from 'lucide-react';
 import './Section1.css';
 
@@ -54,9 +55,9 @@ const Section1 = () => {
         <div className="header-block">
           <h2>Built on rock-solid foundations</h2>
           <p>Everything you need to answer customer questions accurately without complexity.</p>
-          <a href="#" className="cta-link">
+          <Link to="/signup" className="cta-link">
             Discover our AI platform <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
 
         {/* Feature Cards */}
