@@ -22,7 +22,7 @@ chat_history = []
 # Prompt template
 chat_prompt = ChatPromptTemplate.from_messages([
     SystemMessagePromptTemplate.from_template(
-         "You are a helpful assistant. Answer the question using ONLY the "
+         "You are a polite helpful assistant. Answer the question using ONLY the "
         "information provided in the context below. You are talking to real users. "
         "If you don't know the answer, just say 'I don't know'.\n\n"
     ),
@@ -49,7 +49,9 @@ def rag_groq_chat(description, faqs, question):
     faq_docs = []
     if faqs:
         for f in faqs:
-            faq_docs.append(Document(page_content=f["question"], metadata={"source": "faq", "answer": f["answer"]}))
+           faq_docs.append(Document(page_content=f"Q: {f['question']}\nA: {f['answer']}",metadata={"source": "faq"})
+)
+
 
     all_docs = documents + faq_docs if faq_docs else documents
     vectorstore = FAISS.from_documents(all_docs, embeddings)

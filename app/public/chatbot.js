@@ -144,7 +144,7 @@
   const greetedKey = `greeted_${BOT_ID}`;
   function showWelcomeMessage() {
     if (!localStorage.getItem(greetedKey)) {
-      setTimeout(() => addMessage("Hi 👋 How can I help you?"), 400);
+      // setTimeout(() => addMessage("Hi 👋 How can I help you?"), 400);
       localStorage.setItem(greetedKey, "1");
     }
   }
