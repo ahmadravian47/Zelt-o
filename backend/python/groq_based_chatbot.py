@@ -4,11 +4,9 @@ from dotenv import load_dotenv
 
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import FAISS
-
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.documents import Document
-from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
 from groq import Groq
 
@@ -64,24 +62,6 @@ vectorstore = FAISS.from_documents(
 vectorstore.save_local("faiss_product_paragraphs")
 
 # =========================
-# RAG prompt template
-# =========================
-rag_prompt = PromptTemplate(
-    input_variables=["context", "question"],
-    template=(
-        "You are a helpful assistant. Answer the question using ONLY the "
-        "information provided in the context below. You are talking to real users. "
-        "If you don't know the answer, just say 'I don't know'.\n\n"
-        "Context:\n{context}\n\n"
-        "Question:\n{question}\n\n"
-        "Answer:"
-    )
-)
-
-def format_docs(docs):
-    return "\n\n".join(doc.page_content for doc in docs)
-
-# =========================
 # Retriever
 # =========================
 retriever = vectorstore.as_retriever(
@@ -90,15 +70,51 @@ retriever = vectorstore.as_retriever(
 )
 
 # =========================
-# Groq-based RAG chain
+# Format documents
 # =========================
-def rag_groq_chain(question: str, stream: bool = False, **kwargs):
-    # Get top-k relevant paragraphs (internal method requires run_manager)
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+# =========================
+# Chat prompt template
+# =========================
+chat_prompt = ChatPromptTemplate.from_messages([
+    SystemMessagePromptTemplate.from_template(
+        "You are a helpful assistant. Answer questions using ONLY the context provided. "
+        "If you don't know the answer, say 'I don't know'."
+    ),
+    HumanMessagePromptTemplate.from_template(
+        "Context:\n{context}\n\nChat History:\n{chat_history}\n\nQuestion:\n{question}"
+    )
+])
+
+# =========================
+# Initialize chat history
+# =========================
+chat_history = []  # Stores all previous user/assistant messages
+
+# =========================
+# Groq-based RAG chat function
+# =========================
+def rag_groq_chat(question: str, stream: bool = True, **kwargs):
+    # Retrieve relevant docs from FAISS
     relevant_docs = retriever._get_relevant_documents(question, run_manager=None)
     context = format_docs(relevant_docs)
 
-    # Prepare prompt
-    prompt_text = rag_prompt.format(context=context, question=question)
+    # Format chat history for prompt
+    history_text = "\n".join(
+        f"{entry['role'].capitalize()}: {entry['content']}" for entry in chat_history
+    ) or "No previous messages."
+
+    # Build final prompt
+    prompt_text = chat_prompt.format(
+        context=context,
+        chat_history=history_text,
+        question=question
+    )
+
+    # Store user message
+    chat_history.append({"role": "user", "content": question})
 
     # Call Groq API
     completion = client.chat.completions.create(
@@ -109,18 +125,28 @@ def rag_groq_chain(question: str, stream: bool = False, **kwargs):
     )
 
     if stream:
-        # Stream output
+        # Stream assistant response
+        assistant_response = ""
         for chunk in completion:
             if chunk.choices[0].delta.content:
-                print(chunk.choices[0].delta.content, end="", flush=True)
-        print()  # Newline after streaming finishes
+                text_chunk = chunk.choices[0].delta.content
+                assistant_response += text_chunk
+                print(text_chunk, end="", flush=True)
+        print()  # Newline after stream ends
+        # Store assistant message
+        chat_history.append({"role": "assistant", "content": assistant_response})
     else:
-        # Return full response
-        return completion.choices[0].message.content
+        assistant_response = completion.choices[0].message.content
+        chat_history.append({"role": "assistant", "content": assistant_response})
+        return assistant_response
 
 # =========================
-# Ask a question
+# Interactive chatbot loop
 # =========================
-user_question = "Which dry fruit is best for energy"
-# For streaming response
-rag_groq_chain(user_question, stream=True, max_completion_tokens=200, temperature=0.5)
+print("Chat Assistant is online! Type 'exit' to quit.\n")
+while True:
+    user_input = input("You: ").strip()
+    if user_input.lower() in ["exit", "quit"]:
+        print("Assistant: Goodbye! 👋")
+        break
+    rag_groq_chat(user_input, stream=True, max_completion_tokens=300, temperature=0.5)
