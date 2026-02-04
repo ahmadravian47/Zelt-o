@@ -19,14 +19,12 @@ router.patch("/", async (req, res) => {
         if (branding?.primaryColor) org.branding.primaryColor = branding.primaryColor;
 
         // Optional AI config
-        if (ai?.provider === "openai" && ai.openAiKey) {
-            org.ai = {
-                provider: "openai",
-                openAiKey: ai.openAiKey, // save as is or encrypt if you want
-            };
+        if (ai?.provider === "external") {
+            org.ai = { provider: "external" };
         } else {
             org.ai = { provider: "internal" };
         }
+
 
         await org.save();
 

@@ -35,51 +35,40 @@ router.post("/:botId", async (req, res) => {
     }
 
     // 2️⃣ Save user message
-    chat.messages.push({
-      sender: "user",
-      text: message,
-    });
-
+    chat.messages.push({ sender: "user", text: message });
     await chat.save();
 
     // 3️⃣ Fetch FAQs
-    const faqs = await FAQ.find({
-      organizationNumber: org.organizationNumber,
-    }).lean();
+    const faqs = await FAQ.find({ organizationNumber: org.organizationNumber }).lean();
 
     // 4️⃣ Prepare payload for Python
     const payload = {
       description: org.businessDescription,
-      faqs: faqs.map(f => ({
-        question: f.question,
-        answer: f.answer,
-      })),
+      faqs: faqs.map(f => ({ question: f.question, answer: f.answer })),
       query: message,
+      visitorId, // send visitorId to Groq script for session tracking
+      chat_history: chat.messages // send previous messages for multi-turn RAG
     };
 
-    const py = spawn("python3", ["python/chatbot.py"]);
+    // 5️⃣ Decide Python script based on AI provider
+    const pythonScript = org.ai.provider === "external"
+      ? "python/groq_based_chatbot.py"
+      : "python/chatbot.py";
+
+    const py = spawn("python3", [pythonScript]);
 
     let output = "";
 
-    py.stdout.on("data", data => {
-      output += data.toString();
-    });
-
-    py.stderr.on("data", err => {
-      console.error("Python error:", err.toString());
-    });
+    py.stdout.on("data", data => { output += data.toString(); });
+    py.stderr.on("data", err => { console.error("Python error:", err.toString()); });
 
     py.on("close", async () => {
       try {
         const result = JSON.parse(output);
         const reply = result.answer || "Sorry, I couldn't answer that.";
 
-        // 5️⃣ Save bot message
-        chat.messages.push({
-          sender: "bot",
-          text: reply,
-        });
-
+        // 6️⃣ Save bot message
+        chat.messages.push({ sender: "bot", text: reply });
         await chat.save();
 
         res.json({ reply });

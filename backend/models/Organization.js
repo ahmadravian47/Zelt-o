@@ -49,13 +49,9 @@ const organizationSchema = new mongoose.Schema(
     },
 
     ai: {
-      openAiKey: {
-        type: String,
-        select: false, // important for security
-      },
       provider: {
         type: String,
-        enum: ["internal", "openai"],
+        enum: ["internal", "external"],
         default: "internal",
       }
     }

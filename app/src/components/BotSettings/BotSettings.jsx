@@ -4,7 +4,7 @@ import "./BotSettings.css";
 const BotSettings = () => {
   const [businessName, setBusinessName] = useState("");
   const [primaryColor, setPrimaryColor] = useState("#f25534");
-  const [useCustomKey, setUseCustomKey] = useState(false);
+  const [useExternalAI, setUseExternalAI] = useState(false); // rename state
   const [openAiKey, setOpenAiKey] = useState("");
   const [loadingBranding, setLoadingBranding] = useState(false);
   const [loadingAI, setLoadingAI] = useState(false);
@@ -62,7 +62,7 @@ const BotSettings = () => {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          ai: useCustomKey ? { provider: "openai", openAiKey } : { provider: "internal" },
+          ai: useExternalAI ? { provider: "external" } : { provider: "internal" },
         }),
       });
       if (res.ok) setAiStatus({ type: "success", message: "AI Engine updated!" });
@@ -74,6 +74,7 @@ const BotSettings = () => {
     }
   };
 
+
   if (fetching) return (
     <p>loading...</p>
 
@@ -83,7 +84,7 @@ const BotSettings = () => {
     <div className="bs-layout-root">
       <header className="bs-header-area">
         <h1 className="bs-main-title">Bot Settings</h1>
-        <p style={{textAlign: 'left', marginTop: '0.5rem' }}>Tailor your assistant's personality and look.</p>
+        <p style={{ textAlign: 'left', marginTop: '0.5rem' }}>Tailor your assistant's personality and look.</p>
       </header>
 
       {/* BRANDING CARD */}
@@ -156,8 +157,8 @@ const BotSettings = () => {
         <div className="bs-ux-selection-stack">
           {/* Option 1: Internal */}
           <div
-            className={`bs-ux-card ${!useCustomKey ? 'is-selected' : ''}`}
-            onClick={() => setUseCustomKey(false)}
+            className={`bs-ux-card ${!useExternalAI ? 'is-selected' : ''}`}
+            onClick={() => setUseExternalAI(false)}
             style={{ marginTop: '1rem' }}
           >
             <div className="bs-ux-card-content">
@@ -166,44 +167,26 @@ const BotSettings = () => {
               </div>
               <div className="bs-ux-text">
                 <div className="bs-ux-title">Using our Built-in AI</div>
-                {/* <p className="bs-ux-desc">  Use our default medium speed model. No setup required.</p> */}
               </div>
             </div>
           </div>
 
-          {/* Option 2: OpenAI */}
+          {/* Option 2: External */}
           <div
-            className={`bs-ux-card ${useCustomKey ? 'is-selected' : ''}`}
-            onClick={() => setUseCustomKey(true)}
+            className={`bs-ux-card ${useExternalAI ? 'is-selected' : ''}`}
+            onClick={() => setUseExternalAI(true)}
           >
             <div className="bs-ux-card-content">
               <div className="bs-ux-check-wrapper">
                 <div className="bs-ux-check"></div>
               </div>
               <div className="bs-ux-text">
-                <div className="bs-ux-title">Use my own OpenAI API key</div>
-                {/* <p className="bs-ux-desc">Use your own GPT-4 keys. Full control over model parameters and usage costs.</p> */}
+                <div className="bs-ux-title">Use External AI</div>
               </div>
             </div>
-
-            {/* Nested Input - Only shows when parent is selected */}
-            {useCustomKey && (
-              <div className="bs-ux-nested-field bs-animate-slide-down">
-                <div className="bs-ux-divider"></div>
-                <label className="bs-label">Enter OpenAI Secret Key</label>
-                <div className="bs-key-input-container">
-                  <input
-                    className="bs-text-input bs-key-input"
-                    type="password"
-                    value={openAiKey}
-                    onChange={(e) => setOpenAiKey(e.target.value)}
-                    placeholder="sk-..."
-                  />
-                  <div className="bs-secure-indicator">Encrypted</div>
-                </div>
-              </div>
-            )}
           </div>
+
+
         </div>
 
         <div className="bs-ux-action-area">
