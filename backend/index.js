@@ -166,10 +166,12 @@ const userchatRoutes = require("./routes/userchat");
 const botsettingsRoutes=require("./routes/botsettings");
 const faqRoutes=require("./routes/faq");
 const descriptionRoutes=require("./routes/description");
+const chathistoryRoutes=require("./routes/chathistory");
 app.use("/api/dashboard", privateCors, auth, dashboardRoutes);
 app.use("/api/botsettings", privateCors,auth, botsettingsRoutes);
 app.use("/api/faqs", privateCors,auth, faqRoutes);
 app.use("/api/description", privateCors,auth, descriptionRoutes);
+app.use("/api/chathistory", privateCors,auth, chathistoryRoutes);
 app.use("/api/chat", publicCors, userchatRoutes);
 
 
