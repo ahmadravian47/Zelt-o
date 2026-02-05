@@ -23,7 +23,12 @@ const BotSettings = () => {
           const org = data.organization;
           setBusinessName(org.businessName || "");
           setPrimaryColor(org.branding?.primaryColor || "#f25534");
-          if (org.ai?.provider === "openai") setUseCustomKey(true);
+          if (org.ai?.provider === "external") {
+            setUseExternalAI(true);
+          } else {
+            setUseExternalAI(false);
+          }
+
         }
       } catch (err) {
         setBrandingStatus({ type: "error", message: "Failed to load settings." });
@@ -76,7 +81,7 @@ const BotSettings = () => {
 
 
   if (fetching) return (
-   <div className="loader-container">
+    <div className="loader-container">
       <div className="loader"></div>
     </div>
 
