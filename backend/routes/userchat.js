@@ -184,5 +184,30 @@ router.post("/:botId/heartbeat", async (req, res) => {
   }
 });
 
+router.get("/:botId/config", async (req, res) => {
+  try {
+    const org = await Organization.findOne(
+      { "bot.botId": req.params.botId },
+      { "branding.primaryColor": 1, businessName: 1 }
+    ).lean();
+
+    if (!org) {
+      return res.status(404).json({ success: false });
+    }
+
+    res.json({
+      success: true,
+      branding: {
+        primaryColor: org.branding?.primaryColor || "#D9705A",
+      },
+      businessName: org.businessName,
+    });
+  } catch (err) {
+    console.error("[CHAT CONFIG]", err);
+    res.status(500).json({ success: false });
+  }
+});
+
+
 
 module.exports = router;
