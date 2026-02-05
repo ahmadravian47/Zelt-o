@@ -173,7 +173,7 @@ const BotSettings = () => {
                 <div className="bs-ux-check"></div>
               </div>
               <div className="bs-ux-text">
-                <div className="bs-ux-title">Using our Built-in AI</div>
+                <div className="bs-ux-title">Use without LLM</div>
               </div>
             </div>
           </div>
@@ -188,7 +188,7 @@ const BotSettings = () => {
                 <div className="bs-ux-check"></div>
               </div>
               <div className="bs-ux-text">
-                <div className="bs-ux-title">Use External AI</div>
+                <div className="bs-ux-title">Use External AI (Recommended)</div>
               </div>
             </div>
           </div>

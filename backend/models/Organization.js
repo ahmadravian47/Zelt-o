@@ -52,7 +52,7 @@ const organizationSchema = new mongoose.Schema(
       provider: {
         type: String,
         enum: ["internal", "external"],
-        default: "internal",
+        default: "external",
       }
     }
   },
