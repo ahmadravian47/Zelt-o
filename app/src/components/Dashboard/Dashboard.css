@@ -30,7 +30,7 @@
 .logo-circle {
   width: 32px;
   height: 32px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -60,7 +60,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-name {
@@ -91,12 +91,17 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
 }
 
+.dashboard-container .nav-item:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
 .nav-item.active {
-  background-color: rgba(255,255,255,0.15);
+  background-color: rgba(255, 255, 255, 0.15);
   color: white;
 }
 
@@ -108,6 +113,28 @@
 /* Sidebar footer */
 .sidebar-footer {
   padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 20px;
+}
+
+/* Replace the existing .spinner-page and .spinner CSS with this: */
+  .loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loader {
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #D9705A; 
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  animation: spin 0.8s linear infinite;
 }

@@ -51,7 +51,9 @@ const Dashboard = () => {
   };
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div className="loader-container">
+      <div className="loader"></div>
+    </div>;
   }
 
   const { user, organization, faqCount, recentChats, stats } = data;
@@ -117,15 +119,15 @@ const Dashboard = () => {
           </div>
         </div>
       </aside>
-      
-        {activeView === "dashboard" && <DashboardHome data={data} />}
-        {activeView === "settings" && <BotSettings />}
-        {activeView === "faqs" && <Faqs />}
-        {activeView === "history" && <ChatHistory />}
-        {activeView === "description" && <Description />}
-      </div>
 
- 
+      {activeView === "dashboard" && <DashboardHome data={data} />}
+      {activeView === "settings" && <BotSettings />}
+      {activeView === "faqs" && <Faqs />}
+      {activeView === "history" && <ChatHistory />}
+      {activeView === "description" && <Description />}
+    </div>
+
+
   );
 };
 
