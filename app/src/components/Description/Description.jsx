@@ -55,7 +55,9 @@ const Description = () => {
     }
   };
 
-  if (loading) return <div className="desc-loading">Loading...</div>;
+  if (loading) return <div className="loader-container">
+    <div className="loader"></div>
+  </div>;
 
   return (
     <div className="desc-container">

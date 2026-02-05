@@ -76,7 +76,9 @@ const BotSettings = () => {
 
 
   if (fetching) return (
-    <p>loading...</p>
+   <div className="loader-container">
+      <div className="loader"></div>
+    </div>
 
   );
 

@@ -9,6 +9,8 @@ export default function DashboardHome({ data }) {
     if (!data) return <div>Loading...</div>;
 
     const { user, organization, faqCount, recentChats, stats } = data;
+    const [copied, setCopied] = useState(false);
+
 
     return (
         <div style={{ flex: 1 }}>
@@ -90,7 +92,19 @@ export default function DashboardHome({ data }) {
                                 </pre>
                             </div>
 
-                            <button className="dashboard-primary-btn" style={{ width: "100%", marginTop: "15px" }}>Copy Code</button>
+                            <button
+                                className="dashboard-primary-btn"
+                                style={{ width: "100%", marginTop: "15px" }}
+                                onClick={() => {
+                                    navigator.clipboard.writeText(organization.bot.embedCode);
+                                    setCopied(true);
+                                    setTimeout(() => setCopied(false), 2000);
+                                }}
+                            >
+                                {copied ? "Copied!" : "Copy Code"}
+                            </button>
+
+
                         </div>
                     </div>
                 </div>

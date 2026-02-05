@@ -81,7 +81,9 @@ const Faqs = () => {
         </div>
 
         {loading ? (
-          <div className="faq-card loading-card">Loading...</div>
+          <div className="loader-container">
+            <div className="loader"></div>
+          </div>
         ) : (
           faqs.map((faq) => (
             <div key={faq._id} className="faq-card display-card">
@@ -91,7 +93,7 @@ const Faqs = () => {
                 <p>{faq.answer}</p>
               </div>
               <button className="card-delete" onClick={() => handleDelete(faq._id)}>
-              <i class="fa-regular fa-trash-can"></i>
+                <i class="fa-regular fa-trash-can"></i>
               </button>
 
             </div>
