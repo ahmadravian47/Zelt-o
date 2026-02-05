@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
 import google_icon from './search.png';
+import toast from 'react-hot-toast';
 
 import './Login.css';
 
@@ -53,7 +54,7 @@ const Login = () => {
             }
 
         } catch (error) {
-            alert("Something went wrong. Please try again.");
+             toast.error("Invalid username or password.");
         } finally {
             setLoading(false);
         }

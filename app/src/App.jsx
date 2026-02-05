@@ -5,31 +5,35 @@ import Signup from './components/Signup/Signup'
 import Dashboard from './components/Dashboard/Dashboard'
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import GuestRoute from "./components/ProtectedRoute/GuestRoute.jsx";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={
-        <GuestRoute>
-          <Login />
-        </GuestRoute>
-      } />
-      <Route path="/signup" element={
-        <GuestRoute>
-          <Signup />
-        </GuestRoute>
+    <>
+      <Toaster position="top-right" />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={
+          <GuestRoute>
+            <Login />
+          </GuestRoute>
+        } />
+        <Route path="/signup" element={
+          <GuestRoute>
+            <Signup />
+          </GuestRoute>
 
-      } />
+        } />
 
-      <Route path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
+        <Route path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
   )
 }
 

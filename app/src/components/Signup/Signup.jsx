@@ -3,6 +3,7 @@ import { Mail, Lock, Eye, EyeOff, Smartphone } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
 import google_icon from './search.png';
 import './Signup.css';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
     const [name, setName] = useState('');
@@ -37,13 +38,12 @@ const Signup = () => {
             const data = await res.json();
 
             if (res.ok) {
-                alert(data.message);
+                toast.success(data.message);
             } else {
-                alert(data.message || "Signup failed");
+                toast.error(data.message || "Signup failed");
             }
         } catch (err) {
-            console.log(err);
-            alert("Something went wrong. Please try again.");
+            toast.error("Signup Failed");
         } finally {
             setLoading(false);
         }
