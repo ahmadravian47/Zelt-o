@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LayoutDashboard, Settings, MessageSquare, History, BarChart3, LifeBuoy, LogOut, ExternalLink } from "lucide-react";
 
-export default function DashboardHome({ data }) {
+export default function DashboardHome({ data, setActiveView }) {
 
     if (!data) return <div>Loading...</div>;
 
@@ -40,12 +40,24 @@ export default function DashboardHome({ data }) {
                             <div className="dashboard-card training-card">
                                 <h4>Business Info</h4>
                                 <p className="training-description">Learn more simple to displace customer products, regarding projects, and more.</p>
-                                <button className="dashboard-primary-btn" style={{ marginTop: "20px" }}>Manage</button>
+                                <button
+                                    className="dashboard-primary-btn"
+                                    style={{ marginTop: "20px" }}
+                                    onClick={() => setActiveView("description")} // <-- Switch parent view
+                                >
+                                    Manage
+                                </button>
                             </div>
                             <div className="dashboard-card">
                                 <h4 style={{ margin: "0 0 10px 0" }}>FAQs</h4>
                                 <div className="faq-count">{faqCount} <span className="faq-label">FAQs</span></div>
-                                <button className="dashboard-primary-btn" style={{ marginTop: "20px" }}>Edit FAQs ▾</button>
+                                <button
+                                    className="dashboard-primary-btn"
+                                    style={{ marginTop: "20px" }}
+                                    onClick={() => setActiveView("faqs")} // <-- Switch parent view
+                                >
+                                    Edit FAQs
+                                </button>
                             </div>
                         </div>
 

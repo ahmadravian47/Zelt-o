@@ -120,7 +120,7 @@ const Dashboard = () => {
         </div>
       </aside>
 
-      {activeView === "dashboard" && <DashboardHome data={data} />}
+      {activeView === "dashboard" && <DashboardHome data={data} setActiveView={setActiveView} />}
       {activeView === "settings" && <BotSettings />}
       {activeView === "faqs" && <Faqs />}
       {activeView === "history" && <ChatHistory />}
