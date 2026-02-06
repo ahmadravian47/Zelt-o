@@ -55,7 +55,7 @@ const privateCors = cors({
   origin: CLIENT_URL,
   credentials: true,
   allowedHeaders: ["Content-Type", "X-CSRF-Token"],
-  methods: ["GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"]
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
 });
 
 // 🌍 Public Chatbot Embed API
@@ -163,15 +163,15 @@ const auth = async (req, res, next) => {
 
 const dashboardRoutes = require("./routes/dashboard");
 const userchatRoutes = require("./routes/userchat");
-const botsettingsRoutes=require("./routes/botsettings");
-const faqRoutes=require("./routes/faq");
-const descriptionRoutes=require("./routes/description");
-const chathistoryRoutes=require("./routes/chathistory");
+const botsettingsRoutes = require("./routes/botsettings");
+const faqRoutes = require("./routes/faq");
+const descriptionRoutes = require("./routes/description");
+const chathistoryRoutes = require("./routes/chathistory");
 app.use("/api/dashboard", privateCors, auth, dashboardRoutes);
-app.use("/api/botsettings", privateCors,auth, botsettingsRoutes);
-app.use("/api/faqs", privateCors,auth, faqRoutes);
-app.use("/api/description", privateCors,auth, descriptionRoutes);
-app.use("/api/chathistory", privateCors,auth, chathistoryRoutes);
+app.use("/api/botsettings", privateCors, auth, botsettingsRoutes);
+app.use("/api/faqs", privateCors, auth, faqRoutes);
+app.use("/api/description", privateCors, auth, descriptionRoutes);
+app.use("/api/chathistory", privateCors, auth, chathistoryRoutes);
 app.use("/api/chat", publicCors, userchatRoutes);
 
 
@@ -179,7 +179,9 @@ app.use("/api/chat", publicCors, userchatRoutes);
 
 /* -------------------- EMAIL -------------------- */
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: 'mail.privateemail.com',
+  port: 465,
+  secure: true, // SSL
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS
@@ -221,6 +223,7 @@ app.post("/signup", csrfProtection, body("email").isEmail(), body("password").cu
     const link = `${SERVER_URL}/verify?token=${verificationToken}`;
 
     await transporter.sendMail({
+      from: `"Zelt-O" <info@zelt-o.com>`,
       to: email,
       subject: "Verify your account",
       html: `  <p>Please verify your email address by clicking the button below:</p>
