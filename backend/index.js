@@ -83,6 +83,7 @@ app.use("/login", privateCors, authLimiter);
 app.use("/signup", privateCors, authLimiter);
 app.use("/refresh", privateCors, authLimiter);
 app.use("/forgot-password", privateCors, authLimiter);
+app.use("/reset-password", privateCors, authLimiter);
 
 /* -------------------- CSRF -------------------- */
 const csrfProtection = csrf({
@@ -345,6 +346,87 @@ app.options("/userprofile", privateCors);
 app.get("/userprofile", privateCors, auth, csrfProtection, (req, res) => {
   res.json({ email: req.user.email });
 });
+
+app.post("/forgot-password",async (req, res) => {
+  try {
+    const email = req.body.email?.toLowerCase().trim();
+    if (!email) return res.json({ message: "If this email exists, a reset link was sent." });
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      // NEVER reveal if account exists
+      return res.json({ message: "If this email exists, a reset link was sent." });
+    }
+
+    const token = crypto.randomBytes(32).toString("hex");
+
+    const hashed = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    user.resetPasswordToken = hashed;
+    user.resetPasswordExpires = Date.now() + 1000 * 60 * 30; // 30 minutes
+    await user.save();
+
+    const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
+
+    await transporter.sendMail({
+      from: process.env.MAIL_USER,
+      to: user.email,
+      subject: "Reset your Zelt-o password",
+      html: `
+        <h3>Password Reset</h3>
+        <p>You requested a password reset.</p>
+        <a href="${resetLink}" style="padding:10px 16px;background:black;color:white;text-decoration:none;border-radius:5px">
+          Reset Password
+        </a>
+        <p>This link expires in 30 minutes.</p>
+      `
+    });
+
+    res.json({ message: "A reset link is sent to this Email." });
+
+  } catch (err) {
+    console.error(err);
+    res.json({ message: "An Error occurred" });
+  }
+});
+app.post("/reset-password",async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword) return res.status(400).json({ error: "Invalid request" });
+
+    const hashed = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashed,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Token invalid or expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.json({ success: true, message: "Password updated" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 /* -------------------- DATABASE + SERVER -------------------- */
 mongoose
