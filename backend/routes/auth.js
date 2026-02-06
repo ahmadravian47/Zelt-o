@@ -49,7 +49,8 @@ router.get(
         await Organization.create({
           organizationNumber: user_from_db.organizationNumber,
           owner: user_from_db._id,
-          businessName: "My Business", // placeholder
+          businessName: "My Business", 
+          businessDescription: "My Description",
           bot: {
             botId,
             embedCode: generateEmbedCode(botId),
