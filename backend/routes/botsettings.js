@@ -21,9 +21,10 @@ router.patch("/", async (req, res) => {
         // Optional AI config
         if (ai?.provider === "external") {
             org.ai = { provider: "external" };
-        } else {
+        } 
+         if (ai?.provider === "internal") {
             org.ai = { provider: "internal" };
-        }
+        } 
 
 
         await org.save();
