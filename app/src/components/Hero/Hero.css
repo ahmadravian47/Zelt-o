@@ -1,63 +1,170 @@
-/* .hero-container{
-    border: 1px solid red;
-} */
+.hero-container {
+    padding: 0 1rem;
+}
+
+/* HEADLINE */
 .hero-container .hero-h1 {
     font-size: 72px;
-    font-weight: lighter;
-    line-height: 4rem;
-    margin: 0 auto;
+    font-weight: 300;
+    line-height: 0.9;
+    margin: 8rem auto 0;
     text-align: center;
-    margin-top: 8rem;
 }
 
+/* PARAGRAPH */
 .hero-container .hero-p {
-    margin: 0 auto;
+    margin: 1rem auto;
     text-align: center;
-    margin-top: 1rem;
     font-size: 20px;
+    max-width: 750px;
+    line-height: 1.2;
 }
 
+/* BUTTONS */
 .hero-container .hero-buttons {
     display: flex;
-    justify-content: space-between;
-    width: 21%;
-    margin: 0 auto;
-    margin-top: 1rem;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem auto 0;
+    flex-wrap: wrap;
+}
+
+.hero-container .hero-buttons a {
+    padding: 14px 20px;
+    border-radius: 24px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .hero-container .hero-buttons .primary-button {
     background-color: #f25534;
-    list-style: none;
-    text-decoration: none;
     color: white;
-    padding: 14px 18px;
-    border-radius: 24px;
-    font-weight: 500;
 }
 
 .hero-container .hero-buttons .secondary-button {
     background-color: #F8F5F0;
-    list-style: none;
-    text-decoration: none;
     color: black;
-    padding: 14px 18px;
-    border-radius: 24px;
-    font-weight: 500;
 }
 
+/* IMAGE */
 .hero-container .hero-img {
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 8rem;
-    background: none;
+    width: 100%;
+    max-width: 1200px;
+    margin: 8rem auto 0;
 }
 
 .hero-container .hero-img img {
     width: 100%;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(83, 83, 83, 0.1);
-    /* light shadow */
-    transition: box-shadow 0.3s ease;
-    /* optional: smooth hover effect */
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 800px) {
+    .hero-container .hero-h1 {
+        font-size: 56px;
+    }
+
+    .hero-container .hero-p {
+        font-size: 18px;
+    }
+
+}
+
+@media (max-width: 700px) {
+    .p-sep {
+        display: none;
+    }
+
+    .hero-container .hero-h1 {
+        margin-top: 4rem;
+    }
+
+    .hero-container .hero-p {
+        max-width: 750px;
+    }
+
+}
+
+@media (max-width: 600px) {
+    .hero-container .hero-h1 {
+        font-size: 45px;
+    }
+
+    .hero-container .hero-p {
+        font-size: 16px;
+    }
+
+    .hero-container .hero-buttons a {
+        padding: 10px 16px;
+        border-radius: 20px;
+        font-size: small;
+    }
+
+    .hero-container .hero-img {
+        margin-top: 6rem;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .hero-container {
+        padding: 0;
+    }
+
+    .h-sep {
+        display: none;
+    }
+
+    .hero-container .hero-h1 {
+        font-size: 42px;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .hero-container .hero-p {
+        max-width: 98%;
+    }
+
+    .hero-container .hero-img {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .hero-container .hero-h1 {
+        font-size: 40px;
+        max-width: 99%;
+    }
+}
+
+@media (max-width: 390px) {
+
+    .hero-container .hero-h1 {
+        font-size: 36px;
+    }
+      .hero-container .hero-p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 390px) {
+
+    .hero-container .hero-h1 {
+        font-size: 32px;
+    }
+      .hero-container .hero-p {
+        max-width: 99%;
+    }
+
+     .hero-container .hero-buttons a {
+        padding: 8px 14px;
+        border-radius: 16px;
+        font-size: x-small;
+    }
 
 }

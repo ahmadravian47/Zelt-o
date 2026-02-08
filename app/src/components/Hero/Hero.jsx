@@ -9,11 +9,11 @@ export default function Hero() {
     return (
         <div className='hero-container'>
             <h1 className='hero-h1'>
-                Stop answering same <br />
+                Stop answering same <br className='h-sep' />
                 questions every day
             </h1>
             <p className='hero-p'>
-                Let your website chatbot handle repetitive queries 24/7 using your business info, <br />
+                Let your website chatbot handle repetitive queries 24/7 using your business info, <br className='p-sep' />
                 so you can focus on running your business.
             </p>
             <div className="hero-buttons">
