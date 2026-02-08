@@ -7,3 +7,9 @@
     text-align: center;
     font-weight: 500;
 }
+
+@media screen and (max-width:768px) {
+    .banner-text{
+        font-size: x-small;
+    }
+}
