@@ -220,6 +220,13 @@
 }
 
 /* Responsive Adjustments */
+
+@media screen and (max-width:1024px) {
+    .ims-section-wrapper {
+        width: 90%;
+    }
+}
+
 @media (max-width: 992px) {
     .ims-content-card {
         grid-template-columns: 1fr;
@@ -232,5 +239,50 @@
     .ims-viz-pane {
         order: 2;
         /* Move visual below text on small screens */
+    }
+}
+
+@media screen and (max-width:768px) {
+    .section3-h-sep {
+        display: none;
+    }
+
+    .ims-section-wrapper {
+        width: 85%;
+    }
+
+    .ims-primary-heading {
+        width: 100%;
+    }
+
+    .ims-lead-text {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .ims-section-wrapper {
+        width: 90%;
+    }
+
+    .ims-primary-heading {
+        font-size: 36px;
+    }
+
+    .ims-lead-text {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .ims-content-card {
+        box-sizing: border-box;
+        padding: 0;
+    }
+    .ims-text-pane{
+        box-sizing: border-box;
+        width: 98%;
+        margin: 0;
     }
 }

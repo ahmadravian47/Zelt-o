@@ -1,0 +1,35 @@
+.hr-line {
+    border: 0;
+    height: 1px;
+    background-color: #e9e7e7;
+    color: #e9e7e7;
+    margin: 0;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.hr-line2 {
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+}
+
+
+
+@media screen and (max-width:1000px) {
+    .hr-line {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .hr-line {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .hr-line {
+        width: 90%;
+    }
+}

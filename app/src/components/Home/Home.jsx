@@ -7,6 +7,7 @@ import Section1 from '../Section1/Section1'
 import Section2 from '../Section2/Section2'
 import Section3 from '../Section3/Section3'
 import Footer from '../Footer/Footer'
+import './Home.css'
 
 export default function Home() {
   return (
@@ -15,10 +16,10 @@ export default function Home() {
       <Navbar></Navbar>
       <Hero></Hero>
       <Techstack></Techstack>
-      <hr style={{ border: '0', height: '1px', backgroundColor: '#d1cdcd', color: '#d1cdcd', margin: '0', width: '80%', margin: '0 auto', marginTop: '3rem' }} />
+      <hr className='hr-line'  />
       <Section1></Section1>
       <Section2></Section2>
-      <hr style={{ border: '0', height: '1px', backgroundColor: '#d1cdcd', color: '#d1cdcd', margin: '0', width: '80%', margin: '0 auto', marginTop: '5rem', marginBottom:'3rem' }} />
+      <hr className='hr-line hr-line2'/>
       <Section3></Section3>
       <Footer></Footer>
     </div>

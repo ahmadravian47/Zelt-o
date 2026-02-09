@@ -110,10 +110,36 @@
     .feature-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .section-container {
+        width: 90%;
+    }
+
+    .header-block {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
+@media screen and (max-width:768px) {
+    .section-container {
+        width: 85%;
+    }
+}
+
+
 @media (max-width: 640px) {
+    .section-container {
+        margin-top: 2rem;
+    }
+
     .feature-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .section-container {
+        width: 90%;
     }
 }

@@ -21,7 +21,7 @@ const Section3 = () => {
         <section className="ims-section-wrapper">
             {/* Top Header */}
             <header className="ims-hero-header">
-                <h1 className="ims-primary-heading">So good, you’ll stop <br />answering same questions</h1>
+                <h1 className="ims-primary-heading">So good, you’ll stop <br className='section3-h-sep'/>answering same questions</h1>
                 <p className="ims-lead-text">
                     Ready to let your website handle customer questions for you?
                     Create your chatbot in minutes and see it in action.

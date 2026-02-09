@@ -144,3 +144,34 @@
     margin: 0 auto;
     font-weight: 300;
 }
+
+@media screen and (max-width:1024px) {
+    .banner-card {
+        width: 90%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .wrapper {
+        margin-top: 4rem;
+    }
+
+    .banner-card {
+        width: 85%;
+    }
+
+    .description {
+        width: 80%;
+        font-size: 21px;
+
+    }
+}
+
+
+@media screen and (max-width:400px) {
+    .banner-card {
+        width: 90%;
+    }
+}

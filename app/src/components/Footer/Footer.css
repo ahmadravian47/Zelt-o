@@ -107,3 +107,30 @@
     border-left: 2px solid #fbcbbd;
   }
 }
+
+@media (max-width: 1000px) {
+  .footer-wrapper {
+    width: 90%;
+    padding: 60px 0;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .brand-column {
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 24px;
+  }
+
+  .link-column {
+    border-left: 1px solid #fbcbbd;
+    padding-left: 24px;
+  }
+}
