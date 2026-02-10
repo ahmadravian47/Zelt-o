@@ -61,3 +61,21 @@
   font-size: 14px;
   color: #6B7280;
 }
+
+@media screen and (max-width:1400px) {
+  .desc-container {
+   padding-left: 1rem;
+   padding-right: 1rem;
+  }
+
+}
+
+@media screen and (max-width:1024px) {
+  .desc-container {
+   width: 100%;
+   padding-left: 1rem;
+   padding-right: 1rem;
+   margin-top: 2rem;
+  }
+
+}

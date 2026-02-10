@@ -33,7 +33,7 @@
   background: var(--white);
   border-radius: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
   cursor: pointer;
   border: 1px solid transparent;
@@ -70,7 +70,9 @@
   border: 1px solid #eee;
 }
 
-.info { flex: 1; }
+.info {
+  flex: 1;
+}
 
 .info h3 {
   margin: 0;
@@ -104,7 +106,9 @@
   width: 100%;
 }
 
-.msg-bubble-wrapper.user { justify-content: flex-end; }
+.msg-bubble-wrapper.user {
+  justify-content: flex-end;
+}
 
 .msg-bubble {
   max-width: 80%;
@@ -158,4 +162,20 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width:1024px) {
+  .chat-history-wrapper {
+   width: 100%;
+    padding: 0 1rem;
+    margin-top: 4rem;
+  }
+}
