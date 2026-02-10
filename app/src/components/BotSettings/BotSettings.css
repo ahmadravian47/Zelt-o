@@ -115,7 +115,7 @@
   color: white;
   padding: 10px 16px;
   border-radius: 4px;
-  font-weight:normal;
+  font-weight: normal;
   border: none;
   cursor: pointer;
   margin-top: 1rem;
@@ -160,8 +160,8 @@
 }
 
 .bs-ux-card.is-selected {
-  border-color: #f25534; 
-   /* background: #fffafa; */
+  border-color: #f25534;
+  /* background: #fffafa; */
   box-shadow: 0 4px 12px rgba(242, 85, 52, 0.08);
 }
 
@@ -248,7 +248,8 @@
 .bs-submit-trigger:disabled {
   cursor: not-allowed;
   opacity: 0.6;
-  pointer-events: none; /* This hard-prevents any clicks */
+  pointer-events: none;
+  /* This hard-prevents any clicks */
 }
 
 .bs-type-success {
@@ -256,7 +257,8 @@
 }
 
 .bs-type-error {
-  color: #dc2626; /* red */
+  color: #dc2626;
+  /* red */
 }
 
 @keyframes slideDown {
@@ -268,5 +270,14 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media screen and (max-width:1024px) {
+  .bs-layout-root {
+    width: 100%;
+    padding: 0 1rem;
+    color: #2d3436;
+    margin-top: 5rem;
   }
 }
