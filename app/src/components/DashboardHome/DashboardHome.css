@@ -21,6 +21,7 @@
 
 .dashboard-primary-btn {
   background-color: #D9705A;
+  width: 100%;
   color: #FFFFFF;
   border: none;
   padding: 10px 20px;
@@ -263,6 +264,129 @@
   border-radius: 8px;
   font-size: 11px;
   border: 1px solid #E2E8F0;
-  word-break: break-all;
   margin-bottom: 10px;
+
+  /* 🔥 key fixes */
+  max-width: 100%;
+  overflow-x: auto;
 }
+.code-container pre {
+  margin: 0;
+  white-space: pre-wrap;       /* allows wrapping */
+  word-break: break-word;      /* breaks long tokens */
+  overflow-wrap: anywhere;     /* modern + safest */
+}
+
+.code-container code {
+  white-space: inherit;
+}
+
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.sentiment-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sentiment-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 6px 0;
+  color: #D9705A;
+}
+
+.sentiment-stat-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94A3B8;
+  margin-left: 6px;
+}
+
+.sentiment-mini {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sentiment-mini .positive {
+  color: #D9705A;
+}
+
+.sentiment-mini .neutral {
+  color: #F8D2CC;
+}
+
+.sentiment-mini .negative {
+  color: #CBD5E1;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.embedcode {
+  margin-top: 2.2rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.embedcode-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+@media screen and (max-width:1100px) {
+  .dashboard-main {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-grid>div {
+    width: 100%;
+  }
+
+  .embedcode {
+    margin-top: -1rem;
+  }
+
+  .chats-container,
+  .rechat {
+    display: none;
+  }
+
+}
+
+@media screen and (max-width:1000px) {
+  .dashboard-main {
+    margin-top: 2rem;
+  }
+
+}
+
+
+
