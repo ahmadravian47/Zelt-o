@@ -124,6 +124,13 @@
 
 .card-delete:hover { color: #ff7675; }
 
+@media (max-width: 1024px) {
+  .faq-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .faq-grid { grid-template-columns: 1fr; }
